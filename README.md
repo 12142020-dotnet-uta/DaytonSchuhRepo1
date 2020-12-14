@@ -20,11 +20,6 @@ git push --set-upstream origin HelloWorldBranch
 
 This officially pushes the HelloWorldBranch to your repo.
 
-- The final step will merge the HelloWorldBranch to the main branch:
-```
-git pull origin HelloWorldBranch
-```
-
 ### Notes:
 
 |    Command   |                              Function                           |
@@ -33,5 +28,4 @@ git pull origin HelloWorldBranch
 |`git checkout`| creates/navigates branches in repo.                             |
 |`git add .`   | adds all files in directory.                                    |
 |`git commit`  | tells the repo your sure about the changes before you push them.|
-|`git push`    | pushes files to branch in repo cloud.                           |
-|`git pull`    | merge remote upstreams to local repo.                           |
+|`git push`    | pushes files to branch in remote cloud.                         |
