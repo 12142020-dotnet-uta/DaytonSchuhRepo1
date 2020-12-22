@@ -10,8 +10,10 @@ namespace HelloWorldExample
     {
         static void Main(string[] args)
         {
+            int i = 9;
+            double j = 0.2;
             // We can output to console by using Console.WriteLine
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(++i/j-i++);
         }
     }
 }
