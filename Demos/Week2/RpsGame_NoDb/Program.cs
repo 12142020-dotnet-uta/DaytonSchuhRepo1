@@ -8,23 +8,9 @@ namespace RpsGame_NoDb
     {
         static RpsGameRepositoryLayer gameContext = new RpsGameRepositoryLayer(); // create the context here to acceess it in all methods of this class
         static int numberOfChoices = Enum.GetNames(typeof(Choice)).Length;
+
         static void Main(string[] args)
         {
-            // List<Player> players = new List<Player>();
-            // List<Match> matches = new List<Match>();
-            // List<Round> rounds = new List<Round>();
-            // Random rand = new Random();
-            // Random randomNumber = new Random(rand.Next()); // create a random number object
-
-            // create the Computer that everyone plays against.
-            //call methos CreatePlayer() with player name.
-            // Player p1 = new Player()
-            // {
-            //     Fname = "Max",
-            //     Lname = "Headroom"
-            // };
-            // players.Add(p1);
-
             Player p1 = gameContext.CreatePlayer("Max", "HeadRoom"); // create the computer
 
             Console.WriteLine("This is The Official Batch Rock-Paper-Scissors Game");
@@ -52,8 +38,7 @@ namespace RpsGame_NoDb
                 {
                     Match match = gameContext.CreateMatch(p1, p2);
 
-                    Console.WriteLine("\n\tStarting the Match...\n");
-                    do                                              // start loop to last till one player wins 2 games.
+                    do  // start loop to last till one player wins 2 games.
                     {
                         Choice userChoice = UserChoiceMenu(match);
                         Choice computerChoice = gameContext.GetRandomChoice();   // get a randon number 1, 2, or 3.
@@ -64,8 +49,6 @@ namespace RpsGame_NoDb
 
                     gameContext.UpdateWinLossRecords(match);
                     gameContext.AddCompletedMatch(match);
-
-                    Console.WriteLine("\n\tPrinting out the Game information");
 
                     do
                     {
@@ -104,8 +87,6 @@ namespace RpsGame_NoDb
                 Console.WriteLine("Enter 1 to log in and 2 to quit the program.");
                 //call a method to validate user input.
                 logInOrQuitInt = gameContext.ConvertStringToInt(Console.ReadLine());
-                // string logInOrQuit = Console.ReadLine();
-                // bool logInOrQuitBool = int.TryParse(logInOrQuit, out logInOrQuitInt);
                 if (logInOrQuitInt == -1)
                 { Console.WriteLine("I SAID... Enter 1 to play again, Enter 2 to Log out. Get it right!"); }
             } while (logInOrQuitInt != 1 && logInOrQuitInt != 2);// loop runs till the user selects 1 or 2
@@ -204,6 +185,11 @@ namespace RpsGame_NoDb
         public static void PrintGamesData(List<Match> matches)
         {
             int i = 1;
+            foreach (Match m in matches)
+            {
+                Console.WriteLine($"We found {i++} matches");
+            }
+            i = 1;
             foreach (Match m in matches)
             {
                 Console.WriteLine($"\n\t\tMatch {i++}- \nThe GUID is {m.MatchId}.");

@@ -15,8 +15,10 @@ namespace RpsGame_NoDb
         [Key]
         public Guid PlayerId { get { return playerId; } set { playerId = value; } }
 
-        private int numWins;
-        private int numLosses;
+        public int NumWins { get { return numWins; } set { NumWins = value; } }
+        public int NumLosses { get { return numLosses; } set { NumLosses = value; } }
+        private int numWins = 0;
+        private int numLosses = 0;
         private string fName;
         public string Fname
         {
@@ -57,7 +59,7 @@ namespace RpsGame_NoDb
         /// </summary>
         public void AddWin()
         {
-            numWins++;
+            NumWins++;
         }
 
         /// <summary>
@@ -66,20 +68,20 @@ namespace RpsGame_NoDb
         /// <param name="x"></param>
         public void AddWin(int x)
         {
-            numWins += x;
+            NumWins += x;
         }
 
         public void AddLoss()
         {
-            numLosses++;
+            NumLosses++;
         }
 
         public int[] GetWinLossRecord()
         {
             int[] winsAndLosses = new int[2]; // create an array to hole the num of wins and losses
 
-            winsAndLosses[0] = numWins; // put in the wins and losses
-            winsAndLosses[1] = numLosses;
+            winsAndLosses[0] = NumWins; // put in the wins and losses
+            winsAndLosses[1] = NumLosses;
 
             return winsAndLosses; // return the array.
         }

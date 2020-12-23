@@ -17,9 +17,12 @@ namespace RpsGame_NoDb
 
         public List<Round> Rounds = new List<Round>();
 
-        private int p1RoundWins { get; set; } // ho many rounds has the player won?
-        private int p2RoundWins { get; set; }
+        public int p1RoundWins { get { return p1roundWins; } set { p1roundWins = value; } } // how many rounds has the player won?
+        public int p2RoundWins { get { return p2roundWins; } set { p2roundWins = value; } }
         private int ties { get; set; }
+
+        private int p1roundWins = 0;
+        private int p2roundWins = 0;
 
 
         /// <summary>
@@ -46,25 +49,18 @@ namespace RpsGame_NoDb
 
         public Player MatchWinner()
         {
-            if (p1RoundWins == 2)
+            if (p1roundWins == 2)
             {
                 return Player1;
             }
-            else if (p2RoundWins == 2)
+            else if (p2roundWins == 2)
             {
                 return Player2;
             }
             else
             {
-                return null;
+                return new Player();
             }
         }
-
-
-
-
-
     }
-
-
 }

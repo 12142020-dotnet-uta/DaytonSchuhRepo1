@@ -6,9 +6,7 @@ namespace RpsGame_NoDb
 {
     public class RpsGameRepositoryLayer
     {
-        List<Player> players = new List<Player>();
-        List<Match> matches = new List<Match>();
-        List<Round> rounds = new List<Round>();
+        RpsDbContext db = new RpsDbContext();
         int numberOfChoices = Enum.GetNames(typeof(Choice)).Length; // get a always-current number of options of Enum Choice
         Random randomNumber = new Random((int)DateTime.Now.Millisecond); // create a random number object
 
@@ -18,18 +16,19 @@ namespace RpsGame_NoDb
         /// <returns></returns>
         public Player CreatePlayer(string fName = "null", string lName = "null")
         {
-            Player p1 = new Player();
-            p1 = players.Where(x => x.Fname == fName && x.Lname == lName).FirstOrDefault();
-
-            if (p1 == null)
+            // Create a player
+            Player p1 = db.players.SingleOrDefault(x => x.Fname == fName && x.Lname == lName);
+            // If we dont find a user, add them to the db
+            if (!db.players.Any(x => x.Fname == fName && x.Lname == lName))
             {
-                p1 = new Player()
-                {
-                    Fname = fName,
-                    Lname = lName
-                };
-                players.Add(p1);
+                p1 = new Player() { Fname = fName, Lname = lName };
+                // Add to db
+                db.players.Add(p1);
+                // **IMPORTANT** We must save our changes to the db
+                db.SaveChanges();
             }
+
+            // Return the player object
             return p1;
         }
 
@@ -60,9 +59,9 @@ namespace RpsGame_NoDb
         /// <returns></returns>
         public Match CreateMatch(Player p1, Player p2)
         {
-            Match match = new Match();
-            match.Player1 = p1;
-            match.Player2 = p2;
+            Match match = new Match() { Player1 = p1, Player2 = p2 };
+            db.matches.Add(match);
+            db.SaveChanges();
             return match;
         }
 
@@ -74,9 +73,10 @@ namespace RpsGame_NoDb
         public bool SaveMatch(Match match)
         {
             //check if the match is already there
-            if (!matches.Exists(x => x.MatchId == match.MatchId))
+            if (!db.matches.Any(x => x.MatchId == match.MatchId))
             {
-                matches.Add(match);
+                db.matches.Add(match);
+                db.SaveChanges();
                 return true;
             }
             else return false;
@@ -105,7 +105,8 @@ namespace RpsGame_NoDb
             round.Player2Choice = userChoice;
             if (userChoice == computerChoice)   // is the playes tied
             {
-                rounds.Add(round);
+                round.WinningPlayer = CreatePlayer("TieGame", "TieGame");
+                db.rounds.Add(round);
                 match.Rounds.Add(round);
                 match.RoundWinner(); // send in the player who won. empty args means a tie round
             }
@@ -114,14 +115,14 @@ namespace RpsGame_NoDb
                 ((int)userChoice == 0 && (int)computerChoice == 2))
             {
                 round.WinningPlayer = match.Player2;
-                rounds.Add(round);
+                db.rounds.Add(round);
                 match.Rounds.Add(round);
                 match.RoundWinner(match.Player2);
             }
             else
             {
                 round.WinningPlayer = match.Player1;
-                rounds.Add(round);
+                db.rounds.Add(round);
                 match.Rounds.Add(round);
                 match.RoundWinner(match.Player1);
             }
@@ -135,9 +136,9 @@ namespace RpsGame_NoDb
         /// <param name="match"></param>
         public bool AddCompletedMatch(Match match)
         {
-            if (!matches.Exists(x => x.MatchId == match.MatchId))
+            if (!db.matches.Any(x => x.MatchId == match.MatchId))
             {
-                matches.Add(match);
+                db.matches.Add(match);
                 return true;
             }
             return false;
@@ -167,7 +168,7 @@ namespace RpsGame_NoDb
         /// <returns></returns>
         public List<Match> GetMatches()
         {
-            return matches;
+            return db.matches.ToList();
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace RpsGame_NoDb
         /// <returns></returns>
         public List<Player> GetPlayers()
         {
-            return players;
+            return db.players.ToList();
         }
 
         /// <summary>
@@ -185,7 +186,7 @@ namespace RpsGame_NoDb
         /// <returns></returns>
         public List<Round> GetRounds()
         {
-            return rounds;
+            return db.rounds.ToList();
         }
 
 
