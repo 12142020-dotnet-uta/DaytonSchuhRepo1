@@ -16,7 +16,7 @@ namespace P0_DaytonSchuh1
         static RepoLayer context = new RepoLayer();
         static void Main(string[] args)
         {
-            context.Populate();
+            //context.Populate();
             Console.WriteLine("Welcome to Risky Business!");
 
             // START LOGIN/QUIT SECTION
@@ -66,7 +66,7 @@ namespace P0_DaytonSchuh1
                     // END LOCATION SELECTION SECTION
 
                     Console.WriteLine($"Would you like to shop or view orders at {location.Address} in {location.City}?\n" +
-                    "\t1. Shop 2. View Orders");
+                    "\t1. Shop 2. View Orders \n\t(Or -1 if you'd like to go back)");
                     choice = context.ConvertStringToInt(Console.ReadLine());
                     if (choice == 2)
                     {
@@ -90,21 +90,22 @@ namespace P0_DaytonSchuh1
                             // END PRODUCT SELECTION SECTION
 
                             // START CHOOSE NUMBER OF PRODUCT TO ADD SECTION
-                            int amount;
                             do
                             {
                                 // list current item they're looking at
 
-                                Console.WriteLine("How many would you like to add to your cart?");
+                                Console.WriteLine("How many would you like to add to your cart? \n\t(Or -1 if you'd like to go back.)");
 
                                 // get user response
-                                amount = context.ConvertStringToInt(Console.ReadLine());
+                                choice = context.ConvertStringToInt(Console.ReadLine());
+
+                                if(choice == -1){break;}
 
                                 // check if inventory has enough to satisfy request
-                                if (amount <= context.QuantityOfProduct(product, locationLine))
+                                else if (choice <= context.QuantityOfProduct(product, locationLine))
                                 {
                                     // temporarily subtract from location
-                                    context.SubtractProductFromLocation(location, product, amount);
+                                    context.SubtractProductFromLocation(location, product, choice);
                                     break;
                                 }
                                 else { Console.WriteLine("Sorry, we don't have enough in stock. Try again."); }
@@ -127,10 +128,11 @@ namespace P0_DaytonSchuh1
                             // END CHECKOUT SECTION
                         } while (choice != 2);
                     }
-                    else
+                    else if(choice == -1)
                     {
-                        Console.WriteLine("Well, at least you tried. Try again.");
+                        break;
                     }
+                    else Console.WriteLine("well at least you tried.");
                 } while (true);
 
             } while (true);
