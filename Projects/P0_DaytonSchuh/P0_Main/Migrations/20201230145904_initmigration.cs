@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace P0_DaytonSchuh1.Migrations
+namespace P0_DaytonSchuh.Migrations
 {
     public partial class initmigration : Migration
     {

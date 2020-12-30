@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using P0_DaytonSchuh1;
 
-namespace P0_DaytonSchuh1.Migrations
+namespace P0_DaytonSchuh.Migrations
 {
     [DbContext(typeof(P0_DbContext))]
-    partial class P0_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20201230145904_initmigration")]
+    partial class initmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
