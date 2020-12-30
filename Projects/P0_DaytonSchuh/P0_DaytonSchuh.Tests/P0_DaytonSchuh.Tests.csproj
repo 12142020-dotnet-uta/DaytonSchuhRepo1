@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\P0_Main\P0_DaytonSchuh1.csproj" />
+    <ProjectReference Include="..\P0_Main\P0_DaytonSchuh.csproj" />
   </ItemGroup>
 
 </Project>

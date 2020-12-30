@@ -117,6 +117,8 @@ namespace P0_DaytonSchuh1.Tests
 
             using (var context = new P0_DbContext(options))
             {
+                context.Add(new Customer("Test", "Best"));
+                context.SaveChanges();
                 context.Remove(context.customers.SingleOrDefault(x => x.FirstName == "Test"));
                 context.SaveChanges();
             }
@@ -136,8 +138,6 @@ namespace P0_DaytonSchuh1.Tests
 
             using (var context = new P0_DbContext(options))
             {
-                context.Add(new Location("Test", "Test", "Test", "Test"));
-                context.SaveChanges();
                 context.Remove(context.locations.SingleOrDefault(x => x.Address == "Test"));
                 context.SaveChanges();
             }
@@ -197,8 +197,6 @@ namespace P0_DaytonSchuh1.Tests
 
             using (var context = new P0_DbContext(options))
             {
-                context.Add(new LocationLine(1, 1, 1, 1));
-                context.SaveChanges();
                 context.Remove(context.locationLines.SingleOrDefault(x => x.LocationLineId == 1));
                 context.SaveChanges();
             }
