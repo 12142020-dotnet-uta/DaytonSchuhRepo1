@@ -88,7 +88,7 @@ namespace P0_DaytonSchuh1
                             // get the product they want from that location
                             product = BrowseProducts(location, ref locationLine);
                             // END PRODUCT SELECTION SECTION
-
+                            int amount;
                             // START CHOOSE NUMBER OF PRODUCT TO ADD SECTION
                             do
                             {
@@ -97,12 +97,12 @@ namespace P0_DaytonSchuh1
                                 Console.WriteLine("How many would you like to add to your cart? \n\t(Or -1 if you'd like to go back.)");
 
                                 // get user response
-                                choice = context.ConvertStringToInt(Console.ReadLine());
+                                amount = context.ConvertStringToInt(Console.ReadLine());
 
-                                if(choice == -1){break;}
+                                if(amount == -1){break;}
 
                                 // check if inventory has enough to satisfy request
-                                else if (choice <= context.QuantityOfProduct(product, locationLine))
+                                else if (amount <= context.QuantityOfProduct(product, locationLine))
                                 {
                                     // temporarily subtract from location
                                     context.SubtractProductFromLocation(location, product, choice);

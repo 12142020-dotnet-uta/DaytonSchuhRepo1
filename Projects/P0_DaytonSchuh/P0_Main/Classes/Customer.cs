@@ -28,22 +28,22 @@ namespace P0_DaytonSchuh1
         [Key]
         public int CustomerId { get; set; }
 
-        //[Required, MaxLength(20)]
+        [Required, MaxLength(20)]
         public string FirstName { get; set; }
 
-        //[Required, MaxLength(20)]
+        [Required, MaxLength(20)]
         public string LastName { get; set; }
 
-        // [MaxLength(70)]
+        [MaxLength(70)]
         public string Address { get; set; }
 
-        // [MaxLength(40)]
+        [MaxLength(40)]
         public string City { get; set; }
 
-        // [MaxLength(40)]
+        [MaxLength(40)]
         public string State { get; set; }
 
-        // [MaxLength(40)]
+        [MaxLength(40)]
         public string Country { get; set; }
 
     }
