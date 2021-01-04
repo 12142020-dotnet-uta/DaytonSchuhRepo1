@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using P1_DaytonSchuh.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace P1_DaytonSchuh
 {
@@ -24,6 +26,9 @@ namespace P1_DaytonSchuh
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<P1_DbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("P1_DbContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
