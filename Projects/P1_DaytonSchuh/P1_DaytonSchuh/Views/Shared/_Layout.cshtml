@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Risky Business</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="../css/custom.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <!--This affects the brand name redirect-->
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Risky Business</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <fieldset>
+                    <!-- Search bar to look for products -->
+                    <form asp-controller="Products" asp-action="Index">
+                        <input type="submit" value class="button-submit button-search"/>
+                        <input type="text" placeholder="What are you looking for today?" class="input-group-text" name="SearchString" autocomplete="off">
+                    </form>
+                </fieldset>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <!-- Responsive web design -->
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Locations" asp-action="Index">My Store: CurrentLocation</a>
+                        </li>
+                        <!-- dropdown nav-item to show option for an account (sign in) or (create account)-->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-menu">Account</a>
+                            <div class="dropdown-menu">
+                                <!-- if the user is not signed in... -->
+                                <a class="dropdown-item">Sign in</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Create">Create Account</a>
+                                <!-- if the user is logged in, show the-->
+                                <a href="#"></a>
+                                <a href="#">Wallet</a>
+                            </div>
+                        </li>
+                        <!-- dropdown nav-item to show current contents of cart (calculates subtotal, deals/promos, estimated tax, shipping and total )-->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">(Display total)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Create">Checkout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Risky Business - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
