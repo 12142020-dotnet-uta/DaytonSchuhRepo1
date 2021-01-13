@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogicLayer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using ModelLayer.ViewModels;
 using P1_DaytonSchuh.Models;
 using System;
 using System.Collections.Generic;
@@ -11,16 +14,19 @@ namespace P1_DaytonSchuh.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(BusinessLogicClass businessLogicClass, ILogger<HomeController> logger)
         {
+            _businessLogicClass = businessLogicClass;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<LocationLineViewModel> hotDeals = _businessLogicClass.GetHotDeals();
+            return View(hotDeals);
         }
 
         public IActionResult Privacy()

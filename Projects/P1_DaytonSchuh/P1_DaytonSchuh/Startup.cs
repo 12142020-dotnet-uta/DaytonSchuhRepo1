@@ -1,13 +1,16 @@
+using BusinessLogicLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ModelLayer.Models;
+using P1_DaytonSchuh.Data;
+using RepositoryLayer;
 
 namespace P1_DaytonSchuh
 {
@@ -23,7 +26,25 @@ namespace P1_DaytonSchuh
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddIdentity<AppUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //        .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<Repository>();
+            services.AddScoped<BusinessLogicClass>();
+            services.AddScoped<MapperClass>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,6 +53,7 @@ namespace P1_DaytonSchuh
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseMigrationsEndPoint();
             }
             else
             {
@@ -44,13 +66,16 @@ namespace P1_DaytonSchuh
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
