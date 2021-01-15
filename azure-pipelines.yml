@@ -11,24 +11,49 @@ pool:
 
 variables:
   solution: 'Projects/P1_DaytonSchuh/P1_DaytonSchuh/*.sln'
+  testDirectory: 'Project/P1_DaytonSchuh/XUnitTests/XUnitTests.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+#- task: NuGetToolInstaller@1
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+#- task: NuGetCommand@2
+#  inputs:
+#    restoreSolution: '$(solution)'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+stages:
+  - stage:
+    jobs:
+      - job: 'build'
+        steps:
+
+        - task: SonarCloudPrepare@1
+          inputs:
+            SonarCloud: 'Sonarcloud'
+            organization: 'batch12142020'
+            scannerMode: 'MSBuild'
+            projectKey: 'DaytonSchuh-RiskyBusiness_RiskyBusiness'
+            extraProperties: '
+            sonar.exclusions=**/obj/**,**/*.dll
+            sonar.branch.name=$(Build.SourceBranchName)
+            sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+            sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml'
+        - script: dotnet build '$(solution)'
+        - script: echo 'Project Finished Building'
+
+        - task: DotNetCoreCLI@2
+          displayName: Examine Tests
+          inputs:
+            command: 'test'
+            arguments: '--configuration $(BuildConfiguration)
+            /p:CollectCoverage=true
+            /p:CoverletOutputFormat=opencover
+            /p:Coverletoutput-$(Build.SourcesDirector)/TestResults/Coverage
+            --logger trx'
+            projects: '$(testDirectory)'
+            nobuild: true
+        - task: SonarCloudAnalyze@1
+        - task: SonarCloudPublish@1
+          inputs:
+            pollingTimeoutSec: '300'
