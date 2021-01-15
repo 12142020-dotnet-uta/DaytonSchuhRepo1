@@ -15,19 +15,19 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-  - task: NuGetToolInstaller@1
-
-  - task: NuGetCommand@2
-    inputs:
-      restoreSolution: '$(solution)'
-
 stages:
-  - stage:
+  - stage: A
     jobs:
-      - job: 'build'
+    - job: 'NuGetToolInstallAndRestore'
+      steps:
+        - task: NuGetToolInstaller@1
+        - task: NuGetCommand@2
+          inputs:
+            restoreSolution: '$(solution)'
+  - stage: B
+    jobs:
+      - job: 'SonarCloudPrepareAndBuild'
         steps:
-
         - task: SonarCloudPrepare@1
           inputs:
             SonarCloud: 'Sonarcloud'
@@ -42,19 +42,30 @@ stages:
         - script: dotnet build $(solution) --configuration $(buildConfiguration)
           displayName: 'dotnet build $(buildConfiguration)'
         - script: echo 'Project Finished Building'
-
-        - task: DotNetCoreCLI@2
-          displayName: Examine Tests
-          inputs:
-            command: 'test'
-            arguments: '--configuration $(BuildConfiguration)
-            /p:CollectCoverage=true
-            /p:CoverletOutputFormat=opencover
-            /p:Coverletoutput-$(Build.SourcesDirector)/TestResults/Coverage
-            --logger trx'
-            projects: '$(testDirectory)'
-            nobuild: true
-        - task: SonarCloudAnalyze@1
-        - task: SonarCloudPublish@1
-          inputs:
-            pollingTimeoutSec: '300'
+  - stage: C
+    jobs:
+    - job: 'Testing'
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: Examine Tests
+        inputs:
+          command: 'test'
+          arguments: '--configuration $(BuildConfiguration)
+          /p:CollectCoverage=true
+          /p:CoverletOutputFormat=opencover
+          /p:Coverletoutput-$(Build.SourcesDirector)/TestResults/Coverage
+          --logger trx'
+          projects: '$(testDirectory)'
+          nobuild: true
+  - stage: D
+    jobs:
+    - job: 'Analyze'
+      steps:
+      - task: SonarCloudAnalyze@1
+  - stage: E
+    jobs:
+    - job: 'Publish'
+      steps:
+      - task: SonarCloudPublish@1
+        inputs:
+          pollingTimeoutSec: '300'
