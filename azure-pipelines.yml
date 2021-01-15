@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'Projects/P1_DaytonSchuh/P1_DaytonSchuh/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
