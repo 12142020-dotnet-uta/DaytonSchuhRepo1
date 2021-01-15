@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '*.sln'
+  solution: 'DaytonSchuhRepo1/Projects/P1_DaytonSchuh/P1_DaytonSchuh/P1_DaytonSchuh.sln'
   testDirectory: './Projects/P1_DaytonSchuh/XUnitTests/XUnitTests.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
