@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-P1_DaytonSchuh-D147E8E9-8540-4EA8-8752-959E9E062CC8</UserSecretsId>
+    <DebugType>Full</DebugType>
+    <ProjectGuid>{9F2BAFB8-BF03-403A-A733-6165FBD96EE3}</ProjectGuid>
 	  <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 

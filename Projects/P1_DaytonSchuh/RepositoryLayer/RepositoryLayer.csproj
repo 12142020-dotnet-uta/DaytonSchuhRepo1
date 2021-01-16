@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <DebugType>Full</DebugType>
+    <ProjectGuid>{48AC8923-690F-4E46-A653-80C55A2EA6C6}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
