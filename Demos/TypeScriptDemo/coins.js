@@ -1,7 +1,6 @@
 "use strict";
 function coins(userInput) {
-    var div = document.getElementById("output");
-    var paragraph = document.createElement("p");
+    var paragraph = document.getElementById("output");
     var userInput2 = parseFloat(userInput.value);
     console.log("Parsed float: " + userInput2);
     // truncate values
@@ -18,7 +17,7 @@ function coins(userInput) {
         console.log("After nickel calculation: " + userInput2);
         var p = userInput2; // number of pennies
         console.log("After penny calculation: " + userInput2);
-        paragraph.textContent = "Number of dimes: " + d + " + Number of nickles: " + n + " + Number of pennies: " + p;
-        div === null || div === void 0 ? void 0 : div.appendChild(paragraph);
+        if (paragraph != null)
+            paragraph.innerHTML = "Number of dimes: " + d + " + Number of nickles: " + n + " + Number of pennies: " + p;
     }
 }
