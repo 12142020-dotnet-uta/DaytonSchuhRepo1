@@ -1,14 +1,17 @@
 "use strict";
 function coins(userInput) {
     var paragraph = document.getElementById("output");
-    var userInput2 = parseFloat(userInput.value);
-    console.log("Parsed float: " + userInput2);
+    //var userInput2: number = parseFloat(userInput.value);
+    // console.log("Parsed float: " + userInput2);
+    var accountUser = new user;
+    var userInput2 = accountUser.parseInput(userInput);
     // truncate values
     if (userInput2 > 0) {
         userInput2 *= 100;
         console.log("After multiplying by 100: " + userInput2);
         // round the value
         userInput2 = Math.round(userInput2);
+        console.log("After Math.round(): " + userInput2);
         var d = Math.floor(userInput2 / 10); // number of dimes
         userInput2 %= 10;
         console.log("After dime calculation: " + userInput2);
@@ -21,3 +24,14 @@ function coins(userInput) {
             paragraph.innerHTML = "Number of dimes: " + d + " + Number of nickles: " + n + " + Number of pennies: " + p;
     }
 }
+var user = /** @class */ (function () {
+    function user() {
+        this.dollarAmount = 0;
+    }
+    user.prototype.parseInput = function (userInput) {
+        this.dollarAmount = parseFloat(userInput.value);
+        console.log("Parsed float: " + this.dollarAmount);
+        return this.dollarAmount;
+    };
+    return user;
+}());
