@@ -1,11 +1,14 @@
 "use strict";
 function coins(userInput) {
+    var strArray = ["Come on, friend. You can do better.", "Would you like to donate to us?", "Invalid input."];
     var paragraph = document.getElementById("output");
-    //var userInput2: number = parseFloat(userInput.value);
+    // var userInput2: number = parseFloat(userInput.value);
     // console.log("Parsed float: " + userInput2);
     var accountUser = new user;
     var userInput2 = accountUser.parseInput(userInput);
+    // if userInput is greater than 0, perform logic
     if (userInput2 > 0) {
+        // standardize
         userInput2 *= 100;
         console.log("After multiplying by 100: " + userInput2);
         // round the value
@@ -25,6 +28,10 @@ function coins(userInput) {
         // DOM manipulation
         if (paragraph != null)
             paragraph.innerHTML = "Number of dimes: " + d + " + Number of nickles: " + n + " + Number of pennies: " + p;
+    }
+    else {
+        // returns 0,1,2 from strArray
+        alert(strArray[Math.floor(Math.random() * Math.floor(3))]);
     }
 }
 var user = /** @class */ (function () {

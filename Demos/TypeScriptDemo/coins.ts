@@ -1,13 +1,14 @@
 function coins(userInput: any){
+    const strArray : string[]= ["Come on, friend. You can do better.","Would you like to donate to us?","Invalid input."]; 
     const paragraph = document.getElementById("output");
 
-    //var userInput2: number = parseFloat(userInput.value);
-    // console.log("Parsed float: " + userInput2);
     var accountUser: user = new user;
     var userInput2: number = accountUser.parseInput(userInput);
     
+    // if userInput is greater than 0, perform logic
     if(userInput2 > 0){
 
+        // standardize
         userInput2 *= 100;
         console.log("After multiplying by 100: " + userInput2);
 
@@ -32,6 +33,10 @@ function coins(userInput: any){
         // DOM manipulation
         if(paragraph != null)
         paragraph.innerHTML = `Number of dimes: ${d} + Number of nickles: ${n} + Number of pennies: ${p}`;
+    }
+    else{
+        // returns 0,1,2 from strArray
+        alert(strArray[Math.floor(Math.random()*Math.floor(3))]);
     }
 }
 
